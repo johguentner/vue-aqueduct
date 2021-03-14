@@ -1,0 +1,39 @@
+{
+  "name": "vue-viaduct",
+  "version": "1.0.0",
+  "description": "vue3 plugin for very simple communication to 'central' (message-modal, loading-indicator) components",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/johguentner/vue-viaduct.git"
+  },
+  "keywords": [
+    "vue3",
+    "vue3 plugin",
+    "plugin",
+    "component plugin",
+    "component communication",
+    "component bridge"
+  ],
+  "author": "Johannes Güntner",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/johguentner/vue-viaduct/issues"
+  },
+  "homepage": "https://github.com/johguentner/vue-viaduct#readme",
+  "dependencies": {
+    "typescript": "^4.2.3",
+    "vue": "^3.0.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-typescript": "^8.2.0",
+    "@vue/compiler-sfc": "^3.0.7",
+    "rollup": "^2.41.2",
+    "rollup-plugin-vue": "^6.0.0",
+    "tslib": "^2.1.0"
+  }
+}
