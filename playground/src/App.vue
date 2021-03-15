@@ -1,27 +1,31 @@
 <template>
 	<img alt="Vue logo" src="./assets/logo.png" />
 
-	<VueViaduct name="test" #default="{ data }">
-		{{ data }}
-	</VueViaduct>
-	<!-- <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/> -->
+	<VAqueduct name="message" #default="{ testing, bla, visible }">
+		<div v-if="visible">
+			{{ testing }} <br />
+			{{ bla }}
+		</div>
+	</VAqueduct>
+
+	<button @click="$aqueduct('message').pour({ visible: true })">show</button>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
 import HelloWorld from "./components/HelloWorld.vue";
-import VueViaduct from "../../src/VueViaduct.vue";
-import Viaduct from "../../src/viaduct";
+import VAqueduct from "../../src/vAqueduct";
+import Aqueduct from "../../src/aqueduct";
 
 @Options({
 	components: {
 		HelloWorld,
-		VueViaduct,
+		VAqueduct,
 	},
 })
 export default class App extends Vue {
 	mounted() {
-		Viaduct.instance("test").pour({ test: "test" });
+		this.$aqueduct("message").flood({ testing: "test", bla: "tesingtesting" });
 	}
 }
 </script>

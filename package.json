@@ -1,5 +1,5 @@
 {
-  "name": "vue-viaduct",
+  "name": "v-aqueduct",
   "version": "1.0.0",
   "description": "vue3 plugin for very simple communication to 'central' (message-modal, loading-indicator) components",
   "main": "index.js",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/johguentner/vue-viaduct.git"
+    "url": "git+https://github.com/johguentner/vue-aqueduct.git"
   },
   "keywords": [
     "vue3",
@@ -22,12 +22,11 @@
   "author": "Johannes Güntner",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/johguentner/vue-viaduct/issues"
+    "url": "https://github.com/johguentner/vue-aqueduct/issues"
   },
-  "homepage": "https://github.com/johguentner/vue-viaduct#readme",
+  "homepage": "https://github.com/johguentner/vue-aqueduct#readme",
   "dependencies": {
-    "typescript": "^4.2.3",
-    "vue": "^3.0.0"
+    "typescript": "^4.2.3"
   },
   "devDependencies": {
     "@rollup/plugin-typescript": "^8.2.0",
