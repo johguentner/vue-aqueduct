@@ -4,6 +4,8 @@ export default class Aqueduct {
     public name: string;
     public callback: Function;
 
+
+
     public static initialize(name: string, component: any) {
         if (Aqueduct.accessors[name]) {
             Aqueduct.accessors[name].components.push(component);
@@ -28,13 +30,25 @@ export default class Aqueduct {
         this.components.push(component);
     }
 
-    public pour(data: any): Aqueduct {
+    public pour(data: any, timeout: number = 0): Aqueduct {
+        let componentsData = this.components.map(o => o.data);
         this.components.forEach((component) => component.data = { ...component.data, ...data });
+        if (timeout != 0) {
+            setTimeout(() => {
+                this.components.forEach((component, index) => component.data = componentsData[index]);
+            }, timeout)
+        }
         return this;
     }
 
-    public flood(data: any = null): Aqueduct {
+    public flood(data: any = null, timeout: number = 0): Aqueduct {
+        let componentsData = this.components.map(o => o.data);
         this.components.forEach((component) => component.data = data);
+        if (timeout != 0) {
+            setTimeout(() => {
+                this.components.forEach((component, index) => component.data = componentsData[index]);
+            }, timeout)
+        }
         return this;
     }
 

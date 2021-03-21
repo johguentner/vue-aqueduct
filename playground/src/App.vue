@@ -1,12 +1,10 @@
 <template>
 	<img alt="Vue logo" src="./assets/logo.png" />
 
-	<VAqueduct #default="{ testing, bla, visible, callback }">
+	<!-- <VAqueduct #default="{ testing, bla, visible, callback }">
 		first
 		<div v-if="visible">
-			{{ testing }} <br />
-			{{ bla }}
-			<button @click="callback">back</button>
+
 		</div>
 	</VAqueduct>
 	<br />
@@ -17,9 +15,17 @@
 			{{ bla }}
 			<button @click="callback">back</button>
 		</div>
+	</VAqueduct> -->
+
+	<VAqueduct #default="{ msg }">
+		<div v-for="m in msg">
+			{{m}}
+		</div>
 	</VAqueduct>
 
-	<button @click="$aqueduct().pour({ visible: true })">show</button>
+	<button @click="test">
+		show
+	</button>
 </template>
 
 <script lang="ts">
@@ -35,12 +41,17 @@ import Aqueduct from "../../src/aqueduct";
 	},
 })
 export default class App extends Vue {
+	
+	test(){
+		this.$aqueduct().flood({ msg: ['test'] }, 1000);
+	}
+
 	mounted() {
-		this.$aqueduct()
-			.flood({ testing: "test", bla: "tesingtesting" })
-			.then((test) => {
-				this.$aqueduct().flood();
-			});
+		// this.$aqueduct()
+		// 	.flood({ testing: "test", bla: "tesingtesting" })
+		// 	.then((test) => {
+		// 		this.$aqueduct().flood();
+		// 	});
 	}
 }
 </script>
