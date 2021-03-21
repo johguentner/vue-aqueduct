@@ -9,12 +9,13 @@ export default {
 	props: {
 		name: {
 			type: String,
-			required: true
+			default: '__global__'
 		}
 	},
 	data() {
 		return {
 			data: null,
+			callback: null,
 		};
 	},
 	created() {
@@ -30,15 +31,15 @@ export default {
 		// 	  }
 		// 	});
 		//   }
-		if (this.name) {
-			Aqueduct.initialize(this.name, this);
-		}
+		Aqueduct.initialize(this.name, this);
+
 	},
 	render() {
 		return h(
 			"div",
 			this.$slots.default({
-				...this.data
+				...this.data,
+				callback: this.callback
 			}),
 		);
 	}
