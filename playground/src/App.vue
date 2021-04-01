@@ -16,21 +16,17 @@
 			<button @click="callback">back</button>
 		</div>
 	</VAqueduct> -->
+	<br />
+	<br />
+	<button class="rounded bg-gray-200 p-2" @click="test">show</button>
 
-	<VAqueduct #default="{ msg }">
-		<div v-for="m in msg">
-			{{m}}
-		</div>
-	</VAqueduct>
-
-	<button @click="test">
-		show
-	</button>
+	<Messager> </Messager>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
 import HelloWorld from "./components/HelloWorld.vue";
+import Messager from "../../src/Messager.vue";
 import VAqueduct from "../../src/vAqueduct";
 import Aqueduct from "../../src/aqueduct";
 
@@ -38,21 +34,27 @@ import Aqueduct from "../../src/aqueduct";
 	components: {
 		HelloWorld,
 		VAqueduct,
+		Messager,
 	},
 })
 export default class App extends Vue {
-	
-	test(){
-		this.$aqueduct().flood({ msg: ['test'] }, 1000);
-	}
+	counter = 0;
 
-	mounted() {
-		// this.$aqueduct()
-		// 	.flood({ testing: "test", bla: "tesingtesting" })
-		// 	.then((test) => {
-		// 		this.$aqueduct().flood();
-		// 	});
+	test() {
+		this.$aqueduct("msg")
+			.flood(
+				{
+					msg: "test" + this.counter,
+					test: "bla" + this.counter,
+				}
+			)
+			.then((e, destroy) => {
+				console.log(e);
+				destroy();
+			});
+		this.counter++;
 	}
+	mounted() {}
 }
 </script>
 

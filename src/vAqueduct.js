@@ -9,38 +9,53 @@ export default {
 	props: {
 		name: {
 			type: String,
-			default: '__global__'
-		}
+			default: '__global__',
+		},
+		isCollection: Boolean,
 	},
 	data() {
 		return {
 			data: null,
 			callback: null,
+			uid: null,
 		};
 	},
 	created() {
-		//TODO:refine hot-reloading
-		//   if (module.hot) {
-		// 	module.hot.accept();
-
-		// 	var vueComponent = this;
-
-		// 	module.hot.addStatusHandler(status => {
-		// 	  if (status === "apply") {
-		// 		vueComponent.$forceUpdate();
-		// 	  }
-		// 	});
-		//   }
 		Aqueduct.initialize(this.name, this);
-
 	},
 	render() {
-		return h(
-			"div",
-			this.$slots.default({
-				...this.data,
-				callback: this.callback
-			}),
-		);
+		if (this.isCollection && Array.isArray(this.data)) {
+			let slotArray = [];
+
+			for (let dataItem of this.data) {
+				slotArray.push(this.$slots.default({
+					...dataItem,
+					callback: (e) => {
+						this.callback(e, () => this.$aqueduct(this.name).destroy(dataItem.uid));
+					},
+					destroy: () => this.$aqueduct(this.name).destroy(dataItem.uid),
+				}));
+			}
+
+			return h(
+				"div", slotArray
+			);
+
+		} else {
+			if (this.data == {} || this.data == null) {
+				return h("div");
+			}
+
+			return h(
+				"div",
+				this.$slots.default({
+					...this.data,
+					callback: (e) => {
+						this.callback(e, () => this.$aqueduct(this.name).destroy());
+					},
+					destroy: () => this.$aqueduct(this.name).destroy(),
+				}),
+			);
+		}
 	}
 };

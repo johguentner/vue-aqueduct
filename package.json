@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "npx tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tailwind" : "npx tailwindcss-cli@latest build ./src/tailwind.css -o ./src/style.css"
   },
   "repository": {
     "type": "git",
@@ -32,8 +33,11 @@
   "devDependencies": {
     "@rollup/plugin-typescript": "^8.2.0",
     "@vue/compiler-sfc": "^3.0.7",
+    "autoprefixer": "^10.2.5",
+    "postcss": "^8.2.9",
     "rollup": "^2.41.2",
     "rollup-plugin-vue": "^6.0.0",
+    "tailwindcss": "^2.0.4",
     "tslib": "^2.1.0"
   }
 }
