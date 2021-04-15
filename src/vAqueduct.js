@@ -72,7 +72,9 @@ export default {
 				this.$slots.default({
 					...this.data,
 					callback: (e) => {
-						this.callback(e, () => this.$aqueduct(this.name).destroy());
+						if (this.callback) {
+							this.callback(e, () => this.$aqueduct(this.name).destroy());
+						}
 					},
 					destroy: () => this.$aqueduct(this.name).destroy(),
 				}),

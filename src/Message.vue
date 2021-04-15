@@ -32,7 +32,10 @@
 				leave-active-class="duration-500 ease-in"
 				leave-from-class="opacity-100"
 				leave-to-class="opacity-0"
-				v-on:after-leave="destroyCallback()"
+				@after-leave="
+					destroyCallback();
+					floodAqueduct();
+				"
 			>
 				<div v-show="visible" class="absolute z-0 w-full h-full">
 					<div class="absolute z-0 w-full h-full bg-gray-600 opacity-40"></div>
@@ -140,34 +143,23 @@
 								<button
 									v-for="button in buttons"
 									:key="button"
-									@click="callback(button.content)"
+									@click="
+										callbackMessenger(button.content);
+										callback(button.content);
+									"
 									type="button"
 									class="px-4 py-2 text-sm transition-transform duration-200 transform"
 									:class="
-										button.variant != null
+										(button.variant != null
 											? variants[button.variant]
-											: variants['default'] + ' ' + button.class
+											: variants['default']) +
+										' ' +
+										button.customClass
 									"
 									data-bs-dismiss="modal"
 								>
 									{{ button.content }}
 								</button>
-								<!-- <button
-								@click="callback('blub')"
-								type="button"
-								class="px-4 py-2 text-sm text-gray-700 duration-200 bg-white border border-gray-200 rounded hover:bg-gray-100"
-								data-bs-dismiss="modal"
-							>
-								Close Modal
-							</button>
-							<button
-								type="button"
-								class="px-4 py-2 text-sm text-white duration-200 bg-green-600 border rounded hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
-								data-bs-dismiss="modal"
-								@click="callback('blop')"
-							>
-								Approve
-							</button> -->
 							</div>
 						</transition>
 					</div>
@@ -178,16 +170,19 @@
 </template>
 
 <script>
+import Message from './message.ts';
 import VAqueduct from "./vAqueduct";
 
 export default {
 	components: {
 		VAqueduct
 	},
+	created() {
+	},
 	data() {
 		return {
 			visible: false,
-			destroyCallback: null,
+			destroyCallback: () => { },
 			prevHeight: 0,
 			variants: {
 				default: 'bg-white border text-gray-700 border-gray-200 rounded hover:bg-gray-100  focus:outline-none',
@@ -199,6 +194,12 @@ export default {
 		destroy(callback) {
 			this.destroyCallback = callback;
 			this.visible = false;
+		},
+		callbackMessenger(button) {
+			// Messager.instance("msg").callback(button, this.destroy);
+		},
+		floodAqueduct() {
+			Message.instance("msg").destroy();
 		},
 		beforeLeave(element) {
 			this.prevHeight = getComputedStyle(element).height;
