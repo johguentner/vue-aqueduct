@@ -39,7 +39,8 @@ export default class Aqueduct {
         let position = 0;
 
         for (let component of this.components) {
-            if (component.data == null || !Array.isArray(component.data)) component.data = [];
+            // debugger;
+            if (component.data == null || !Array.isArray(component.data) && component.isCollection) component.data = [];
             if (component.isCollection) {
                 position = component.data.push({ ...data, uid, _created: new Date() });
             }
@@ -48,7 +49,7 @@ export default class Aqueduct {
                     component.data = { ...component.data, ...data };
                 }
                 else {
-                    component.data = data;
+                    component.data = data
                 }
             }
         }
@@ -64,10 +65,12 @@ export default class Aqueduct {
                     }
                     else {
                         if (pour) {
-                            component.data = componentsData[index];
+                            let callback = () => { component.data = componentsData[index] };
+                            component.destroy(callback);
                         }
                         else {
-                            component.data = null;
+                            let callback = () => { component.data = null };
+                            component.destroy(callback);
                         }
                     }
                     index++;
@@ -89,10 +92,12 @@ export default class Aqueduct {
     public destroy(uid): void {
         for (let component of this.components) {
             if (component.isCollection) {
-                component.data.splice(_.findIndex(component.data, function (item) { return item.uid == uid }), 1);
+                let callback = () => { component.data.splice(_.findIndex(component.data, function (item) { return item.uid == uid }), 1); };
+                component.destroy(callback);
             }
             else {
-                component.data = null;
+                let callback = () => { component.data = null; }
+                component.destroy(callback);
             }
         }
     }

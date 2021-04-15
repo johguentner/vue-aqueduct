@@ -6,12 +6,14 @@ import Aqueduct from './aqueduct';
 
 export default {
 	name: "v-aqueduct",
+	emits: ['triggered', 'destroyed'],
 	props: {
 		name: {
 			type: String,
 			default: '__global__',
 		},
 		isCollection: Boolean,
+		destroyFunction: Function,
 	},
 	data() {
 		return {
@@ -23,6 +25,12 @@ export default {
 	created() {
 		Aqueduct.initialize(this.name, this);
 	},
+	methods: {
+		destroy(callback) {
+			if (this.destroyFunction) this.destroyFunction(callback);
+			else callback();
+		}
+	},
 	render() {
 		if (this.isCollection && Array.isArray(this.data)) {
 			let slotArray = [];
@@ -33,9 +41,18 @@ export default {
 					callback: (e) => {
 						this.callback(e, () => this.$aqueduct(this.name).destroy(dataItem.uid));
 					},
-					destroy: () => this.$aqueduct(this.name).destroy(dataItem.uid),
+					destroy: () => {
+						this.$aqueduct(this.name).destroy(dataItem.uid);
+						this.$nextTick(() => {
+							this.$emit('destroyed');
+						});
+					},
 				}));
 			}
+
+			this.$nextTick(() => {
+				this.$emit('triggered');
+			});
 
 			return h(
 				"div", slotArray
@@ -45,6 +62,10 @@ export default {
 			if (this.data == {} || this.data == null) {
 				return h("div");
 			}
+
+			this.$nextTick(() => {
+				this.$emit('triggered');
+			});
 
 			return h(
 				"div",

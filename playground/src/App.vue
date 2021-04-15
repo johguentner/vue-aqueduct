@@ -18,8 +18,7 @@
 	</VAqueduct> -->
 	<br />
 	<br />
-	<button class="rounded bg-gray-200 p-2" @click="test">show</button>
-
+	<button class="p-2 bg-gray-200 rounded" @click="test">show</button>
 	<Messager> </Messager>
 </template>
 
@@ -42,15 +41,34 @@ export default class App extends Vue {
 
 	test() {
 		this.$aqueduct("msg")
-			.flood(
-				{
-					msg: "test" + this.counter,
-					test: "bla" + this.counter,
-				}
-			)
+			.pour({
+				title: "Modal To Go",
+				msg: "What do you think ? 😊",
+				buttons: [
+					{ content: "Close" },
+					{ content: "Approve", variant: "success" },
+				],
+			})
 			.then((e, destroy) => {
 				console.log(e);
-				destroy();
+				if (e == "Close") {
+					this.$aqueduct("msg").pour(
+						{
+							msg: "oh no... 😞 ... I'm closing now",
+						},
+						1500
+					);
+				} else {
+					this.$aqueduct("msg")
+						.pour({
+							msg:
+								"AWESOME! 🤙 \nsee ya later!\n\n\n\n\n\n\n\n\nsecret: this is a modal",
+							buttons: [{ content: "k bye", class: "col-span-2" }],
+						})
+						.then((e, destroy) => {
+							destroy();
+						});
+				}
 			});
 		this.counter++;
 	}
@@ -60,7 +78,6 @@ export default class App extends Vue {
 
 <style>
 #app {
-	font-family: Avenir, Helvetica, Arial, sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-align: center;
